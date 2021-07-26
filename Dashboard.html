@@ -234,10 +234,12 @@ function TransformChartData(chartData, opts) {
 
 
     function mouseover(){
-        div.style('display', 'inline');
+    
+		div.style('display', 'inline');
     }
     function mousemove(){
         var d = d3.select(this).data()[0]
+		console.log(d);
         div
             .html("Total Number of " +document.getElementById('fuelType').value+ " Cars by " + d.Make + ' - ' + d.Number*10 + '<hr/>' + "0 Cylinder Cars" + ' - ' + d.noOf0CylCars + '<br/>' + "2 Cylinder Cars" + ' - ' + d.noOf2CylCars+ '<br/>' + "3 Cylinder Cars" + ' - ' + d.noOf3CylCars+ '<br/>' + "4 Cylinder Cars" + ' - ' + d.noOf4CylCars+ '<br/>' + "6 Cylinder Cars" + ' - ' + d.noOf6CylCars+ '<br/>' + "8 Cylinder Cars" + ' - ' + d.noOf8CylCars+ '<br/>' + "10 Cylinder Cars" + ' - ' + d.noOf10CylCars+ '<br/>' + "12 Cylinder Cars" + ' - ' + d.noOf12CylCars)
             .style('left', 650)
