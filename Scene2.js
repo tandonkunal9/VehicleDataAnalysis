@@ -28,8 +28,7 @@ function GetBrandSpecificData(chartData,selectedBrand,opts){
 		for(k=0;k<chartData.length;k++)
 		{
 			if(selectedBrand == chartData[k].Make && chartData[k].Fuel == "Gasoline" )
-			{
-				 
+			{				 
 				 resultGasoline.push(chartData[k]);			
 		      	}
 				
@@ -242,7 +241,7 @@ function GetBrandSpecificData(chartData,selectedBrand,opts){
 }  
 
 function BrandSpecificBarChart(data,svgId){
-    var id = "#"+svgId;
+	var id = "#"+svgId;
     var margin = {top: 10, right: 30, bottom: 70, left: 50},
     width = 350 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;
@@ -360,8 +359,5 @@ function BrandSpecificBarChart(data,svgId){
 	.attr("dy", ".35em")
 	.style("text-anchor", "end")
 	.text(function(d) {return "AverageHighwayMPG"; });
-  
-  
-  
-			
+  		
 }

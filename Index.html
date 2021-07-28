@@ -28,8 +28,7 @@ body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 	 text-align    : center;
 	 margin-bottom:0px;
 	}
-html, body {
-   
+html, body {   
     font-size: 13px;
     line-height: 1.5;
 }
@@ -47,11 +46,17 @@ html, body {
       color         : black;
       pointer-events: none;
 }
+.xAxis{
+font-size:20px;
+}
+.yAxis{
+font-size:20px;
+}
 </style>
 
 
 
-<body  onload='init("OnLoad","")' class="w3-light-grey">
+<body  onload='init("OnLoad","","Gasoline","2021")' class="w3-light-grey">
 <div id='tooltip'></div>
 <div id='annot'></div>
 <script>
@@ -67,35 +72,41 @@ var annotDiv = d3.select('#annot').append('div')
 
 <div class="w3-content" style="max-width:3200px">
 
-<div class="header"> 
-  <h2><b>United States Environmental Protection Agency</b></h2>
-</div>
-
-<!-- Grid -->
-<div class="w3-row">
+		<div class="header"> 
+		  <h2><b>United States Environmental Protection Agency</b></h2>
+		</div>
 
 
-<div class="w3-col l8 s12" style="width:75%">
+		<div class="w3-row">
+<div class="w3-col l8 s12" style="width:70%">
   <div class="w3-card-4 w3-margin w3-white">
     <div class="w3-container">
       <h4><b>Data on Cars used for Testing Fuel Economy</b></h4>
     </div>
     <div class="w3-container">
       <p>The test data used to determine fuel economy estimates is derived from vehicle testing done at EPA's National Vehicle and Fuel Emissions Laboratory in Ann Arbor, Michigan, and by vehicle manufacturers who submit their own test data to EPA.
-Each year, EPA provides fuel economy data to the Department of Energy (DOE), the Department of Transportation (DOT) and the Internal Revenue Service (IRS) so that they can administer their fuel economy-related programs</p>
+		Each year, EPA provides fuel economy data to the Department of Energy (DOE), the Department of Transportation (DOT) and the Internal Revenue Service (IRS) so that they can administer their fuel economy-related programs</p>
 	  <p>EPA requires auto manufacturers to change or update their MPG (miles per gallon) values on fuel economy labels (window stickers) if information comes to light that show that the values are too high. </p>
-		<div align="center" id="fuelTypeFilter" style="max-height:40px">
+		<div  id="fuelTypeFilter" style="max-height:40px">
+			<div align="center">		
 			<label for="fuel">Choose a Fuel Type:</label>
-				<select name="fuel" id="fuelType" onchange="filterRecords('fuel')">
+				<select name="fuel" id="fuelType" onchange="filterRecords('Fuel')">
 					<option value="Gasoline">Gasoline</option>
 					<option value="Diesel">Diesel</option>
 					<option value="Electricity">Electricity</option>
-				</select>	
-					<button id ="byValue"> Sort By </button>
-		</div>
+				</select>
 		
-		<svg id="mainGraph"></svg>
-		<svg id = "svgAnnot"></svg>
+			
+			<label for="fuel">Choose a year:</label>
+				<select name="fuel" id="yearFilter" onchange="filterRecords('Year')">
+					<option value="2021">2021</option>
+					<option value="2020">2020</option>
+				</select>		
+			</div>
+		
+		
+		<svg id="mainGraph" height="900" width="1000"></svg>
+		
 		
 		<path></path>
 		<ul>
@@ -110,48 +121,52 @@ Each year, EPA provides fuel economy data to the Department of Energy (DOE), the
   </div>
   <hr>
 
- 
+ </div>
 </div>
 
 <!-- Introduction menu -->
-<div class="w3-col l4" style="width:25%">
-  <!-- About Card -->
-  <!-- Posts -->
+<div class="w3-col l4" style="width:30%">
   <div class="w3-card w3-margin">
     <div class="w3-container w3-padding">
-      <h4>Popular Posts</h4>
+      <h4>Key Highlights</h4>
     </div>
-    <ul class="w3-ul w3-hoverable w3-white">
+    <ul class="w3-ul  w3-white">
       <li class="w3-padding-16">
-        <span class="w3-large">Lorem</span><br>
-        <span>Sed mattis nunc</span>
+        <div align = "center">Cars Sold as per Fuel</div>
+		<svg id="vehicleDistributionByFuel" height="300" width="300"></svg>
+		<div align = "right" style="max-height:40px;">
+			<svg id="vehicleDistributionByFuelLegend"></svg>
+		</div>
       </li>
-      <li class="w3-padding-16">
-        
-        <span class="w3-large">Ipsum</span><br>
-        <span>Praes tinci sed</span>
-      </li> 
-      <li class="w3-padding-16">
-     
-        <span class="w3-large">Dorum</span><br>
-        <span>Ultricies congue</span>
-      </li>   
-      <li class="w3-padding-16 w3-hide-medium w3-hide-small">
-       
-        <span class="w3-large">Mingsum</span><br>
-        <span>Lorem ipsum dipsum</span>
+     <li class="w3-padding-16">
+        <div align = "center">Cars Tested as per Fuel & Test Category</div>
+		<svg id="testingByFuel" height="300" width="300"></svg>
+		<div align = "right" style="max-height:40px;">
+			<svg id="testingByFuelLegend"></svg>
+		</div>
+      </li>
+	 
+    </ul>
+  </div>
+  <hr> 
+</div>
+
+<div class="w3-col l4" style="width:30%">
+  <div class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+      <h4>Data Source</h4>
+    </div>
+    <ul class="w3-ul  w3-white" align="center">
+      <li>
+       <a href="https://tandonkunal9.github.io/VehicleDataAnalysis/Cars2021V1.csv">Description and instructions for fuel economy test data files</a>
       </li>  
     </ul>
   </div>
   <hr> 
- 
-
-  
-<!-- END Introduction Menu -->
 </div>
 
 <!-- END GRID -->
-</div><br>
+
 
 <!-- END w3-content -->
 </div>
