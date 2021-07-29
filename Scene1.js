@@ -198,14 +198,17 @@ function BrandSpecificBarChart(data,svgId,legendId){
 	var legendId = "#"+legendId;
 	var domainHeight = 1800;
 	var subgroups = ["noSemiAuto","noOfManual","noOfAutomatic","noOfOther"];
+	var colorRange = ['#BEBD7F','#CDA434','blue','#E4A010']
+	
 	if(svgId == "testingByFuel"){
 		domainHeight = 2000;
 		subgroups = ["noCD","noOfFTP","noOfHWY","noOfSC03","noOfUS06"];
+		var colorRange = ['pink','green','lightblue','brown',"black"]
 	}
 	
     var margin = {top: 10, right: 30, bottom: 30, left: 50},
     width = 400 - margin.left - margin.right,
-    height = 250 - margin.top - margin.bottom;
+    height = 300 - margin.top - margin.bottom;
 
     var svg = d3.select(id)
             .attr("width", width + margin.left + margin.right)
@@ -222,7 +225,7 @@ function BrandSpecificBarChart(data,svgId,legendId){
   
    svg.append("g")
     .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x).tickSize(0));
+    .call(d3.axisBottom(x));
  
   var y = d3.scaleLinear()
             .domain([0,domainHeight])
@@ -238,7 +241,7 @@ function BrandSpecificBarChart(data,svgId,legendId){
 
   var color = d3.scaleOrdinal()
     .domain(subgroups)
-    .range(['#BEBD7F','#CDA434','blue','#E4A010'])
+    .range(colorRange)
 
 
   svg.append("g")
@@ -274,78 +277,152 @@ function BrandSpecificBarChart(data,svgId,legendId){
     		.attr("x", 150)
     		.text("Data not Available")
 	 }
-  svg.append("text")
-    		.attr("text-anchor", "end")
-    		.attr("transform", "rotate(-90)")
-    		.attr("y", -margin.left+10)
-    		.attr("x", -50)
-    		.text("Number of Cars")
-  svg.append("text")
-    		.attr("text-anchor", "end")
-    		.attr("x", width/2)
-    		.attr("y", height + 30)
-    		.text("Fuel");	
-  
-	var legends = d3.select(legendId).attr("width", width + margin.left + margin.right)
-            		.attr("height",100)
-            		.append("g")
-            		.attr("transform","translate(" + margin.left + "," + margin.top + ")");
-	
-	legends.append("g").append("rect")
-	.attr("x",50)
-	.attr("width", 18)
-	.attr("height", 18)
-	.style("fill", function(d) { return "#BEBD7F" });
-
-  	legends.append("g").append("text")
-	.attr("x", 175)
-	.attr("y", 9)
-	.attr("dy", ".35em")
-	.style("text-anchor", "end")
-	.text(function(d) {return "Semi-Automatic"; });
-
-   	legends.append("g").append("rect")
-	.attr("x", 180)
-	.attr("y", 0)
-	.attr("width", 18)
-	.attr("height", 18)
-	.style("fill", function(d) { return "#CDA434" });
-
-  	legends.append("g").append("text")
-	.attr("x", 255)
-	.attr("y",9)
-	.attr("dy", ".35em")
-	.style("text-anchor", "end")
-	.text(function(d) {return "Manual"; });
-
-	legends.append("g").append("rect")
-	.attr("x",50)
-	.attr("y",25)
-	.attr("width", 18)
-	.attr("height", 18)
-	.style("fill", function(d) { return "blue" });
-
-  	legends.append("g").append("text")
-	.attr("x", 175)
-	.attr("y", 35)
-	.attr("dy", ".35em")
-	.style("text-anchor", "end")
-	.text(function(d) {return "Automatic"; });
-
-   	legends.append("g").append("rect")
-	.attr("x", 180)
-	.attr("y", 25)
-	.attr("width", 18)
-	.attr("height", 18)
-	.style("fill", function(d) { return "#E4A010" });
-
-  	legends.append("g").append("text")
-	.attr("x", 255)
-	.attr("y",35)
-	.attr("dy", ".35em")
-	.style("text-anchor", "end")
-	.text(function(d) {return "Other"; });
+	  svg.append("text")
+				.attr("text-anchor", "end")
+				.attr("transform", "rotate(-90)")
+				.attr("y", -margin.left+10)
+				.attr("x", -50)
+				.text("Number of Cars")
+	  svg.append("text")
+				.attr("text-anchor", "end")
+				.attr("x", width/2)
+				.attr("y", height+30)
+				.text("Fuel");	
+    if(legendId == "#vehicleDistributionByFuelLegend"){
+		var legends = d3.select(legendId).attr("width", width + margin.left + margin.right)
+						.attr("height",100)
+						.append("g")
+						.attr("transform","translate(" + margin.left + "," + margin.top + ")");
 		
+		legends.append("g").append("rect")
+		.attr("x",50)
+		.attr("width", 18)
+		.attr("height", 18)
+		.style("fill", function(d) { return "#BEBD7F" });
+
+		legends.append("g").append("text")
+		.attr("x", 175)
+		.attr("y", 9)
+		.attr("dy", ".35em")
+		.style("text-anchor", "end")
+		.text(function(d) {return "Semi-Automatic"; });
+
+		legends.append("g").append("rect")
+		.attr("x", 180)
+		.attr("y", 0)
+		.attr("width", 18)
+		.attr("height", 18)
+		.style("fill", function(d) { return "#CDA434" });
+
+		legends.append("g").append("text")
+		.attr("x", 255)
+		.attr("y",9)
+		.attr("dy", ".35em")
+		.style("text-anchor", "end")
+		.text(function(d) {return "Manual"; });
+
+		legends.append("g").append("rect")
+		.attr("x",50)
+		.attr("y",25)
+		.attr("width", 18)
+		.attr("height", 18)
+		.style("fill", function(d) { return "blue" });
+
+		legends.append("g").append("text")
+		.attr("x", 175)
+		.attr("y", 35)
+		.attr("dy", ".35em")
+		.style("text-anchor", "end")
+		.text(function(d) {return "Automatic"; });
+
+		legends.append("g").append("rect")
+		.attr("x", 180)
+		.attr("y", 25)
+		.attr("width", 18)
+		.attr("height", 18)
+		.style("fill", function(d) { return "#E4A010" });
+
+		legends.append("g").append("text")
+		.attr("x", 255)
+		.attr("y",35)
+		.attr("dy", ".35em")
+		.style("text-anchor", "end")
+		.text(function(d) {return "Other"; });
+	}	
+	
+	 if(legendId == "#testingByFuelLegend"){
+		var legends = d3.select(legendId).attr("width", width + margin.left + margin.right)
+						.attr("height",100)
+						.append("g")
+						.attr("transform","translate(" + margin.left + "," + margin.top + ")");
+		
+		legends.append("g").append("rect")
+		.attr("x",0)
+		.attr("width", 18)
+		.attr("height", 18)
+		.style("fill", function(d) { return "pink" });
+
+		legends.append("g").append("text")
+		.attr("x", 40)
+		.attr("y", 9)
+		.attr("dy", ".35em")
+		.style("text-anchor", "end")
+		.text(function(d) {return "CD"; });
+
+		legends.append("g").append("rect")
+		.attr("x", 60)
+		.attr("y", 0)
+		.attr("width", 18)
+		.attr("height", 18)
+		.style("fill", function(d) { return "green" });
+
+		legends.append("g").append("text")
+		.attr("x", 105)
+		.attr("y",9)
+		.attr("dy", ".35em")
+		.style("text-anchor", "end")
+		.text(function(d) {return "FTP"; });
+
+		legends.append("g").append("rect")
+		.attr("x",120)
+		.attr("y",0)
+		.attr("width", 18)
+		.attr("height", 18)
+		.style("fill", function(d) { return "lightblue" });
+
+		legends.append("g").append("text")
+		.attr("x", 175)
+		.attr("y", 14)
+		.style("text-anchor", "end")
+		.text(function(d) {return "HWY"; });
+
+		legends.append("g").append("rect")
+		.attr("x", 190)
+		.attr("y", 0)
+		.attr("width", 18)
+		.attr("height", 18)
+		.style("fill", function(d) { return "brown" });
+
+		legends.append("g").append("text")
+		.attr("x", 245)
+		.attr("y",9)
+		.attr("dy", ".35em")
+		.style("text-anchor", "end")
+		.text(function(d) {return "SC03"; });
+		
+		legends.append("g").append("rect")
+		.attr("x", 255)
+		.attr("y", 0)
+		.attr("width", 18)
+		.attr("height", 18)
+		.style("fill", function(d) { return "black" });
+
+		legends.append("g").append("text")
+		.attr("x", 310)
+		.attr("y",13)
+		.style("text-anchor", "end")
+		.text(function(d) {return "US06"; });
+	}	
 }
 
 function TransformChartData(chartData,opts,filterType,year) {
@@ -503,7 +580,7 @@ function barChart(chartData){
 				.attr("y", -margin.left+15)
 				.attr("x", -200)
 				.attr('class', 'xAxis')
-				.text("Make")
+				.text("Manufacturer")
 		g.append("text")
 				.attr("text-anchor", "end")
 				.attr("x", width/2)

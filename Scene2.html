@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>W3.CSS Template</title>
+<title></title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -36,7 +36,18 @@ html, body {
 </style>
 
 
-<body  onload='init(data)' class="w3-light-grey">
+<body  onload='init(selectedBrand,"OnLoad")' class="w3-light-grey">
+<div id='tooltip'></div>
+<div id='annot'></div>
+<script>
+
+var div = d3.select('#tooltip').append('div')
+        .attr('class', 'tooltip')
+        .style('display', 'none');
+var annotDiv = d3.select('#annot').append('div')
+        .attr('class', 'annotation')
+       
+</script>
 
 <div class="w3-content" style="max-width:2400px">
 
@@ -58,50 +69,56 @@ html, body {
 	  <div align = "right" style="max-height: 60px;">
 		<svg id="legends"></svg>
 	  </div>
-	  
-	  <svg id="subGraphGasoline"></svg>
+		<svg id="subGraphGasoline"></svg>
 		<svg id="subGraphDiesel"></svg>
 		<svg id="subGraphElectricity"></svg>
 		
     </div>
   </div>
   <hr>
-
- 
+   <div class="w3-card-4 w3-margin w3-white">
+    <div class="w3-container">
+      <h4><b>Average Miles Per Gallon</b></h4>
+    </div>
+    <div class="w3-container">
+	  <p>EPA requires auto manufacturers to change or update their MPG (miles per gallon) values on fuel economy labels (window stickers) if information comes to light that show that the values are too high.</p>
+	  <div align = "right" style="max-height:60px">
+		<svg id="legends"></svg>
+	  </div>
+	  
+		
+		
+		
+    </div>
+  </div>
 </div>
-
 <!-- Introduction menu -->
 <div class="w3-col l4" style="width:25%">
   <!-- About Card -->
   <!-- Posts -->
   <div class="w3-card w3-margin">
-    <div class="w3-container w3-padding">
-      <h4>Popular Posts</h4>
-    </div>
+   <br />
     <ul class="w3-ul w3-hoverable w3-white">
-      <li class="w3-padding-16">
-        <span class="w3-large">Lorem</span><br>
-        <span>Sed mattis nunc</span>
-      </li>
-      <li class="w3-padding-16">
-        
-        <span class="w3-large">Ipsum</span><br>
-        <span>Praes tinci sed</span>
-      </li> 
-      <li class="w3-padding-16">
+      <div  align="center" >
+		<input type="range" min="38" max="1000" value="368" step="10" id="myRange">
+			<p>Rated Horsepower <span id="hpValue"></span></p>
+		</div>
+		<svg id="subGraphHP"></svg>
      
-        <span class="w3-large">Dorum</span><br>
-        <span>Ultricies congue</span>
-      </li>   
-      <li class="w3-padding-16 w3-hide-medium w3-hide-small">
-       
-        <span class="w3-large">Mingsum</span><br>
-        <span>Lorem ipsum dipsum</span>
-      </li>  
     </ul>
   </div>
   <hr> 
- 
+
+<script>
+var slider = document.getElementById("myRange");
+var output = document.getElementById("hpValue");
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value;
+  init(selectedBrand,"OnSlide");
+}
+</script>
 
   
 <!-- END Introduction Menu -->
