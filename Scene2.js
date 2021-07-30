@@ -5,7 +5,7 @@ var selectedBrand = params.get('selectedBrand');
 
 
 
-async function init(selectedBrand,eventType){
+async function init(selectedBrand,eventType,fuelType){
 	
 	//const chartData = await d3.csv('https://tandonkunal9.github.io/VehicleDataAnalysis/cars2017.csv');
 	const chartData = await d3.csv('https://tandonkunal9.github.io/VehicleDataAnalysis/Cars2021V1.csv');
@@ -20,10 +20,44 @@ async function init(selectedBrand,eventType){
 	if(eventType == "OnLoad"){
 		GetBrandSpecificData(chartData,selectedBrand,opts);
 		GetRatedHorsePowerDetails(chartData,selectedBrand,document.getElementById("myRange").value);
+		//GetCarTypeDetails(chartData,selectedBrand,"Gasoline",document.getElementById("myRange").value);
 	}
 	if(eventType == "OnSlide"){
 		GetRatedHorsePowerDetails(chartData,selectedBrand,document.getElementById("myRange").value);
 	}
+	if(eventType == "onHpBarClicked"){
+		GetCarTypeDetails(chartData,selectedBrand,fuelType,document.getElementById("myRange").value)
+	}
+}
+
+function GetCarTypeDetails(chartData,selectedBrand,fuelType,ratedHp){
+	
+	var filteredData = [];var finalResults = [];
+	var noOfCars = 0;var noOfTruck = 0;
+	for(k=0;k<chartData.length;k++)
+		{
+			if(selectedBrand == chartData[k].Make && chartData[k].Fuel == fuelType && Number(chartData[k]["Rated Horsepower"]) <= Number(ratedHp) )
+			{				 
+				 filteredData.push(chartData[k]);			
+		    }
+		}
+	for(k=0;k<filteredData.length;k++)
+		{
+			if(chartData[k]["Vehicle Type"] == "Car")
+			{				 
+				 noOfCars = noOfCars + 1;			
+		    }
+			if(chartData[k]["Vehicle Type"] == "Truck")
+			{				 
+				 noOfTruck = noOfTruck + 1;			
+		    }
+		}
+	if(noOfCars > 0 || noOfTruck > 0){
+	var item = {};item["group"] = "Cars";item["value"] = noOfCars;finalResults.push(item);
+	    item = {};item["group"] = "Truck";item["value"] = noOfTruck;finalResults.push(item);
+	}
+	console.log(finalResults);
+	ratedHpGraph(finalResults,"subGraphCarsTruck");
 }
 
 function GetRatedHorsePowerDetails(chartData,selectedBrand,ratedHp){
@@ -68,8 +102,6 @@ function GetRatedHorsePowerDetails(chartData,selectedBrand,ratedHp){
 		var item = {};item["group"] = "Gasoline";item["value"] = noOfRatedHPGasCars;finalResultHP.push(item);
 		item = {};item["group"] = "Diesel";item["value"] = noOfRatedHPDieselCars;finalResultHP.push(item);
 		item = {};item["group"] = "Electric";item["value"] = noOfRatedHPElectricCars;finalResultHP.push(item);
-		console.log(finalResultHP);
-		//BrandSpecificBarChart(finalResultHP,"subGraphHP");
 		ratedHpGraph(finalResultHP,"subGraphHP");
 }
 
@@ -306,7 +338,12 @@ function GetBrandSpecificData(chartData,selectedBrand,opts){
 	
 	
 } 
-
+function mouseClickOfHPBar(data){
+	 var d = d3.select(this).data()[0];
+	 document.getElementById("graphIntro").innerHTML = "Vehicles manufactured for "+d.group+" as fuel type with horsepower of "+document.getElementById("myRange").value;
+	 init(selectedBrand,"onHpBarClicked",d.group)
+	
+}
 function mouseover()
 	{
         div.style('display', 'inline');
@@ -315,7 +352,7 @@ function mousemove(data)
 	{
         var d = d3.select(this).data()[0];
         div
-            .html(d.value)
+            .html("Total - "+d.value+'<hr>'+"Click on Bar For More Details")
             .style('left', (d3.event.pageX + 30) + 'px')
             .style('top', (d3.event.pageY - 12) + 'px');	
 	}
@@ -327,10 +364,20 @@ function mouseout()
  
 function ratedHpGraph(data,svgId){
 	var id = "#"+svgId;
-	d3.selectAll("rect.hp").remove() // remove existing rectangles & refresh with new ones
+	
+	if(svgId == "subGraphHP"){
+		var classId = "hp";
+		d3.selectAll("rect.hp").remove();
+	}
+	if(svgId == "subGraphCarsTruck"){
+		var classId = "carsTruck";
+		d3.selectAll("rect.carsTruck").remove();
+	}
+	 // remove existing rectangles & refresh with new ones
+	
 	var domain = 500;
 	var xAxisLbl = "No of Cars";
-	var yAxisLbl = "Fuel";
+	var yAxisLbl = "";
 	var graphLabel = "";
     var margin = {top: 10, right: 30, bottom: 70, left: 50},
     width = 350 - margin.left - margin.right,
@@ -350,9 +397,7 @@ function ratedHpGraph(data,svgId){
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x))
-    .selectAll("text")
-      .attr("transform", "translate(-10,0)rotate(-45)")
-      .style("text-anchor", "end");
+    
  
   var y = d3.scaleLinear()
     .domain([0, domain])
@@ -369,13 +414,14 @@ function ratedHpGraph(data,svgId){
 	  .on('mouseover', mouseover)
 	  .on('mousemove', mousemove)
 	  .on('mouseout', mouseout)
-      .attr("width", x.bandwidth())
+	  .on("click",mouseClickOfHPBar)
+      .attr("width", x.bandwidth()-10)
 	  .transition()
       .delay(function (d) {return Math.random()*1000;})
       .duration(1000)
       .attr("height", function(d) { return height - y(d.value); })
       .attr("fill", "lightblue")
-	  .attr('class','hp')
+	  .attr('class',classId)
 	 
       
      if(data.length == 0)
@@ -384,8 +430,13 @@ function ratedHpGraph(data,svgId){
     		.attr("text-anchor", "end")
     		.attr("transform", "rotate(-30)")
     		.attr("y", 150)
-    		.attr("x", 150)
-    		.text("Data not Available")
+    		.attr("x", 120)
+			.attr("class","noDataClass")
+    		.text("No Result Found")
+	 }
+	 else{
+		 d3.selectAll("text.noDataClass").remove();
+		 
 	 }
   svg.append("text")
     		.attr("text-anchor", "end")
@@ -483,7 +534,6 @@ function BrandSpecificBarChart(data,svgId){
       })
 	  .on("mousemove",function(d){
 		    var d = d3.select(this).data()[0];
-			console.log(d);
 			if(d.key == "AverageCityMPG")
 				var lbl = " MPG in City";
 				else
@@ -566,5 +616,54 @@ function BrandSpecificBarChart(data,svgId){
 	.attr("dy", ".35em")
 	.style("text-anchor", "end")
 	.text(function(d) {return "AverageHighwayMPG"; });
-  		
+	
+	if(svgId == "subGraphElectricity"){
+			var anonotation = "Electric Cars should provide better mileage than any other car irespective of Engine Cylinder";
+			var margin = {top: 20, right: 30, bottom: 40, left: 90},
+			width = 1000 - margin.left - margin.right,
+			height = 40;
+
+			var svg = d3.select("#scene2Main")
+			  .append("svg")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", height + margin.top + margin.bottom)
+	
+			var x = d3.scaleLinear()
+				.rangeRound([0,98]);
+				x.domain([0, height])
+    
+			  annotations = [{
+				note: {
+				  label: anonotation,
+				  wrap:190
+				},
+				connector:{
+					end:"dot"
+				},
+				x:0,
+				color:["black"],
+				y:5,
+				dy:30,
+				dx: -30,
+			  }]
+
+			  makeAnnotations = d3.annotation()
+				.annotations(annotations)
+
+			  svg.append('g')
+				.attr('class', 'annotation-group')
+				.call(makeAnnotations)
+
+			  d3.select('.annotation-group')
+			  .transition()
+			  .duration(4000)
+			  .tween('updateAnno',function(d){
+				xTrans = d3.interpolateNumber(0,400)
+				return function(t){
+				  annotations[0].x = x(xTrans(t));
+				  makeAnnotations.annotations(annotations)
+				  makeAnnotations.update()
+				}
+			  })
+	}
 }

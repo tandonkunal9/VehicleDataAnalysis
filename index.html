@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+<script src='https://d3js.org/d3.v5.min.js'></script>
+<script src="Scene1.js"></script>
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+.tooltip{
+      position      : absolute;
+      text-align    : center;
+      max-width     : 350px;
+      max-height    : 250px;
+      padding       : 8px;
+      border        : none;
+      border-radius : 8px;
+      margin-top    : 30px;
+      font          : 13px "Raleway", sans-serif;
+      background    : black;
+      color         : white;
+      pointer-events: none;
+  }
+ .header{
+	 text-align    : center;
+	 margin-bottom:0px;
+	}
+html, body {   
+    font-size: 13px;
+    line-height: 1.3;
+}
+.annotation{
+	  position      : absolute;
+      text-align    : left;
+      max-width     : 350px;
+      max-height    : 250px;
+      padding       : 8px;
+      border        : none;
+      border-radius : 8px;
+      margin-top    : 30px;
+      font          : 13px "Raleway", sans-serif;
+      background    : antiquewhite;
+      color         : black;
+      pointer-events: none;
+}
+.xAxis{
+font-size:20px;
+}
+.yAxis{
+font-size:20px;
+}
+
+ul.breadcrumb {
+  padding: 0px 16px;
+  list-style: none;
+}
+ul.breadcrumb li {
+  display: inline;
+  font-size: 18px;
+}
+ul.breadcrumb li+li:before {
+  padding: 8px;
+  color: black;
+  content: ">>\00a0";
+}
+ul.breadcrumb li a {
+  color: #0275d8;
+  text-decoration: none;
+}
+ul.breadcrumb li a:hover {
+  color: #01447e;
+  text-decoration: underline;
+}
+</style>
+
+
+
+<body  onload='init("OnLoad","","Gasoline","2021")' class="w3-light-grey">
+<div id='tooltip'></div>
+<div id='annot'></div>
+<script>
+
+var div = d3.select('#tooltip').append('div')
+        .attr('class', 'tooltip')
+        .style('display', 'none');
+var annotDiv = d3.select('#annot').append('div')
+        .attr('class', 'annotation')
+       
+</script>
+
+
+<div class="w3-content" style="max-width:3200px">
+
+		<div class="header"> 
+		  <h2><b>United States Environmental Protection Agency</b></h2>
+		</div>
+		<ul class="breadcrumb">
+			<li><a href="#">Home</a></li>
+			<li>Test Results for MPG</li>
+			<li>Test Results for Emissions</a></li>
+		</ul>
+
+
+		<div class="w3-row">
+<div class="w3-col l8 s12" style="width:65%">
+  <div class="w3-card-4 w3-margin w3-white">
+    <div class="w3-container">
+      <h4><b>Data on Cars used for Testing Fuel Economy</b></h4>
+    </div>
+    <div class="w3-container">
+	  <p>The fuel economy label provides consumers with reliable and repeatable estimates of real-world fuel economy for national-average drivers and conditions allowing consumers to compare fuel economy across different car models.</p>
+	  <p>EPA requires auto manufacturers to revise MPG (miles per gallon) values on fuel economy labels (window stickers) if relevant information becomes available that show that values are too high. EPA oversees the MPG values on fuel economy labels in a variety of ways including:</p>
+	  <ul>
+		<li>Conducting independent testing on about 15% of vehicle models each year. This testing is done on pre-production vehicles provided by manufacturers.</li>
+		<li>Testing in-use cars and trucks to confirm the fuel economy labels are accurate for post-production vehicles.</li>
+		<li>Assessing information provided by consumer groups, the auto industry, and fueleconomy.gov to identify models for further testing.</li>
+		<li>This Visualization is based on a testing result shared by auto manufactureres on about <b>15%</b> of vehcile model each year</li>
+	  </ul>
+	  <p></p>
+	  <p><b>Click on bar for details testing report for each manufacturer</b></p>
+		<div  id="fuelTypeFilter" style="max-height:40px">
+			<div align="center">		
+			<label for="fuel">Choose a Fuel Type:</label>
+				<select name="fuel" id="fuelType" onchange="filterRecords('Fuel')">
+					<option value="Gasoline">Gasoline</option>
+					<option value="Diesel">Diesel</option>
+					<option value="Electricity">Electricity</option>
+				</select>
+		
+			
+			<label for="fuel">Choose a year:</label>
+				<select name="fuel" id="yearFilter" onchange="filterRecords('Year')">
+					<option value="2021">2021</option>
+					
+				</select>		
+			</div>
+		
+		
+		<svg id="mainGraph" height="900" width="1000"></svg>
+		
+		
+		<path></path>
+		<ul>
+		<li>DOE publishes fuel economy label values in the annual Fuel Economy Guide (http://www.fueleconomy.gov).</li>
+		<li>DOT receives the manufacturers' fleet average fuel economy from EPA, and determines if manufacturers are complying with the federal corporate average fuel economy (CAFE) standards.</li>
+		<li>EPA provides IRS with the fuel economy data for vehicles which may be subject to the Gas Guzzler tax penalty. IRS is responsible for collecting those taxes from manufacturers. </li>
+		</ul>
+		<div align="right">
+          <p><span class="w3-padding-large w3-right"><b>*DOE Department of Energy</b></p>
+        </div>
+    </div>
+  </div>
+  <hr>
+
+ </div>
+</div>
+
+<!-- Introduction menu -->
+<div class="w3-col l4" style="width:35%">
+  <div class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+      <h5>Cars Manufactured for each Transmission as per fuel</h5>
+    </div>
+    <ul class="w3-ul  w3-white">
+      <li class="w3-padding-16">
+        <div align = "center"></div>
+		<svg id="vehicleDistributionByFuel" height="300" width="300"></svg>
+		<div align = "right" style="max-height:40px;">
+			<svg id="vehicleDistributionByFuelLegend"></svg>
+		</div>
+      </li> 
+    </ul>
+  </div>
+   <div class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+      <h5>Cars Tested for each Category as per Fuel</h5>
+    </div>
+    <ul class="w3-ul  w3-white">
+     <li class="w3-padding-16">     
+		<svg id="testingByFuel" height="300" width="300"></svg>
+		<div align = "right" style="max-height:40px;">
+			<svg id="testingByFuelLegend"></svg>
+		</div>
+      </li>
+	 
+    </ul>
+  </div>
+  <hr> 
+</div>
+
+<div class="w3-col l4" style="width:35%">
+  <div class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+      <h5>Data Source</h5>
+    </div>
+    <ul class="w3-ul  w3-white" align="center">
+      <li>
+       <a href="Cars2021V1.csv">Description and instructions for fuel economy test data files</a>
+      </li>  
+    </ul>
+  </div>
+  <hr> 
+</div>
+
+<!-- END GRID -->
+
+
+<!-- END w3-content -->
+</div>
+
+</body>
+
+</html>

@@ -60,19 +60,19 @@ function getBrandDetails(chartData,selectedData){
 				noOfOther = noOfOther + 1;
 			}
 			
-			if(resultGasoline[i]["Test Category"] == "CD"){
+			if(resultGasoline[i]["Test Category"] == "CD" && (resultGasoline[i]["Tested Transmission Type"] == "Semi-Automatic" || resultGasoline[i]["Tested Transmission Type"] == "Automatic" || resultGasoline[i]["Tested Transmission Type"] == "Manual" || resultGasoline[i]["Tested Transmission Type"] == "Other")){
 				noCD = noCD + 1;
 			}
-			if(resultGasoline[i]["Test Category"] == "FTP"){
+			if(resultGasoline[i]["Test Category"] == "FTP" && (resultGasoline[i]["Tested Transmission Type"] == "Semi-Automatic" || resultGasoline[i]["Tested Transmission Type"] == "Automatic" || resultGasoline[i]["Tested Transmission Type"] == "Manual" || resultGasoline[i]["Tested Transmission Type"] == "Other")){
 				noOfFTP = noOfFTP + 1;
 			}
-			if(resultGasoline[i]["Test Category"] == "HWY"){
+			if(resultGasoline[i]["Test Category"] == "HWY" && (resultGasoline[i]["Tested Transmission Type"] == "Semi-Automatic" || resultGasoline[i]["Tested Transmission Type"] == "Automatic" || resultGasoline[i]["Tested Transmission Type"] == "Manual" || resultGasoline[i]["Tested Transmission Type"] == "Other")){
 				noOfHWY = noOfHWY + 1;
 			}
-			if(resultGasoline[i]["Test Category"] == "SC03"){
+			if(resultGasoline[i]["Test Category"] == "SC03" && (resultGasoline[i]["Tested Transmission Type"] == "Semi-Automatic" || resultGasoline[i]["Tested Transmission Type"] == "Automatic" || resultGasoline[i]["Tested Transmission Type"] == "Manual" || resultGasoline[i]["Tested Transmission Type"] == "Other")){
 				noOfSC03 = noOfSC03 + 1;
 			}
-			if(resultGasoline[i]["Test Category"] == "US06"){
+			if(resultGasoline[i]["Test Category"] == "US06" && (resultGasoline[i]["Tested Transmission Type"] == "Semi-Automatic" || resultGasoline[i]["Tested Transmission Type"] == "Automatic" || resultGasoline[i]["Tested Transmission Type"] == "Manual" || resultGasoline[i]["Tested Transmission Type"] == "Other")){
 				noOfUS06 = noOfUS06 + 1;
 			}
 		}
@@ -82,6 +82,7 @@ function getBrandDetails(chartData,selectedData){
 	item["noOfManual"] = noOfManual;
 	item["noOfAutomatic"] = noOfAutomatic;
 	item["noOfOther"] = noOfOther;
+	item["cumTotal"] = noSemiAuto+noOfManual+noOfAutomatic+noOfOther;
 	carsByFuelResult.push(item);
 	
 	item = {};
@@ -91,6 +92,7 @@ function getBrandDetails(chartData,selectedData){
 	item["noOfHWY"] = noOfHWY;
 	item["noOfSC03"] = noOfSC03;
 	item["noOfUS06"] = noOfUS06;
+	item["cumTotal"] = noCD+noOfFTP+noOfHWY+noOfSC03+noOfUS06;
 	testingByFuelResult.push(item);
 	for(var i=0;i<resultDiesel.length;i++)
 		{			
@@ -107,19 +109,19 @@ function getBrandDetails(chartData,selectedData){
 				noOfOther = noOfOther + 1;
 			}
 			
-			if(resultDiesel[i]["Test Category"] == "CD"){
+			if(resultDiesel[i]["Test Category"] == "CD" && (resultDiesel[i]["Tested Transmission Type"] == "Semi-Automatic" || resultDiesel[i]["Tested Transmission Type"] == "Automatic" || resultDiesel[i]["Tested Transmission Type"] == "Manual" || resultDiesel[i]["Tested Transmission Type"] == "Other")){
 				noCD = noCD + 1;
 			}
-			if(resultDiesel[i]["Test Category"] == "FTP"){
+			if(resultDiesel[i]["Test Category"] == "FTP" && (resultDiesel[i]["Tested Transmission Type"] == "Semi-Automatic" || resultDiesel[i]["Tested Transmission Type"] == "Automatic" || resultDiesel[i]["Tested Transmission Type"] == "Manual" || resultDiesel[i]["Tested Transmission Type"] == "Other")){
 				noOfFTP = noOfFTP + 1;
 			}
-			if(resultDiesel[i]["Test Category"] == "HWY"){
+			if(resultDiesel[i]["Test Category"] == "HWY" && (resultDiesel[i]["Tested Transmission Type"] == "Semi-Automatic" || resultDiesel[i]["Tested Transmission Type"] == "Automatic" || resultDiesel[i]["Tested Transmission Type"] == "Manual" || resultDiesel[i]["Tested Transmission Type"] == "Other")){
 				noOfHWY = noOfHWY + 1;
 			}
-			if(resultDiesel[i]["Test Category"] == "SC03"){
+			if(resultDiesel[i]["Test Category"] == "SC03" && (resultDiesel[i]["Tested Transmission Type"] == "Semi-Automatic" || resultDiesel[i]["Tested Transmission Type"] == "Automatic" || resultDiesel[i]["Tested Transmission Type"] == "Manual" || resultDiesel[i]["Tested Transmission Type"] == "Other")){
 				noOfSC03 = noOfSC03 + 1;
 			}
-			if(resultDiesel[i]["Test Category"] == "US06"){
+			if(resultDiesel[i]["Test Category"] == "US06" && (resultDiesel[i]["Tested Transmission Type"] == "Semi-Automatic" || resultDiesel[i]["Tested Transmission Type"] == "Automatic" || resultDiesel[i]["Tested Transmission Type"] == "Manual" || resultDiesel[i]["Tested Transmission Type"] == "Other")){
 				noOfUS06 = noOfUS06 + 1;
 			}
 		}
@@ -129,8 +131,8 @@ function getBrandDetails(chartData,selectedData){
 	item["noOfManual"] = noOfManual;
 	item["noOfAutomatic"] = noOfAutomatic;
 	item["noOfOther"] = noOfOther;
+	item["cumTotal"] = noSemiAuto+noOfManual+noOfAutomatic+noOfOther;
 	carsByFuelResult.push(item);
-	
 	item = {};
 	item["group"] = "Diesel";
 	item["noCD"] = noCD;
@@ -138,6 +140,7 @@ function getBrandDetails(chartData,selectedData){
 	item["noOfHWY"] = noOfHWY;
 	item["noOfSC03"] = noOfSC03;
 	item["noOfUS06"] = noOfUS06;
+	item["cumTotal"] = noCD+noOfFTP+noOfHWY+noOfSC03+noOfUS06;
 	testingByFuelResult.push(item);
 	for(var i=0;i<resultElectricity.length;i++)
 		{			
@@ -154,19 +157,19 @@ function getBrandDetails(chartData,selectedData){
 				noOfOther = noOfOther + 1;
 			}
 			
-			if(resultElectricity[i]["Test Category"] == "CD"){
+			if(resultElectricity[i]["Test Category"] == "CD"  && (resultElectricity[i]["Tested Transmission Type"] == "Semi-Automatic" || resultElectricity[i]["Tested Transmission Type"] == "Automatic" || resultElectricity[i]["Tested Transmission Type"] == "Manual" || resultElectricity[i]["Tested Transmission Type"] == "Other")){
 				noCD = noCD + 1;
 			}
-			if(resultElectricity[i]["Test Category"] == "FTP"){
+			if(resultElectricity[i]["Test Category"] == "FTP"  && (resultElectricity[i]["Tested Transmission Type"] == "Semi-Automatic" || resultElectricity[i]["Tested Transmission Type"] == "Automatic" || resultElectricity[i]["Tested Transmission Type"] == "Manual" || resultElectricity[i]["Tested Transmission Type"] == "Other")){
 				noOfFTP = noOfFTP + 1;
 			}
-			if(resultElectricity[i]["Test Category"] == "HWY"){
+			if(resultElectricity[i]["Test Category"] == "HWY"  && (resultElectricity[i]["Tested Transmission Type"] == "Semi-Automatic" || resultElectricity[i]["Tested Transmission Type"] == "Automatic" || resultElectricity[i]["Tested Transmission Type"] == "Manual" || resultElectricity[i]["Tested Transmission Type"] == "Other")){
 				noOfHWY = noOfHWY + 1;
 			}
-			if(resultElectricity[i]["Test Category"] == "SC03"){
+			if(resultElectricity[i]["Test Category"] == "SC03"  && (resultElectricity[i]["Tested Transmission Type"] == "Semi-Automatic" || resultElectricity[i]["Tested Transmission Type"] == "Automatic" || resultElectricity[i]["Tested Transmission Type"] == "Manual" || resultElectricity[i]["Tested Transmission Type"] == "Other")){
 				noOfSC03 = noOfSC03 + 1;
 			}
-			if(resultElectricity[i]["Test Category"] == "US06"){
+			if(resultElectricity[i]["Test Category"] == "US06"  && (resultElectricity[i]["Tested Transmission Type"] == "Semi-Automatic" || resultElectricity[i]["Tested Transmission Type"] == "Automatic" || resultElectricity[i]["Tested Transmission Type"] == "Manual" || resultElectricity[i]["Tested Transmission Type"] == "Other")){
 				noOfUS06 = noOfUS06 + 1;
 			}
 		}
@@ -176,6 +179,7 @@ function getBrandDetails(chartData,selectedData){
 		item["noOfManual"] = noOfManual;
 		item["noOfAutomatic"] = noOfAutomatic;
 		item["noOfOther"] = noOfOther;
+		item["cumTotal"] = noSemiAuto+noOfManual+noOfAutomatic+noOfOther;
 		carsByFuelResult.push(item);
 		
 		item = {};
@@ -185,8 +189,8 @@ function getBrandDetails(chartData,selectedData){
 		item["noOfHWY"] = noOfHWY;
 		item["noOfSC03"] = noOfSC03;
 		item["noOfUS06"] = noOfUS06;
+		item["cumTotal"] = noCD+noOfFTP+noOfHWY+noOfSC03+noOfUS06;
 		testingByFuelResult.push(item);
-		console.log(testingByFuelResult);
 		BrandSpecificBarChart(carsByFuelResult,"vehicleDistributionByFuel","vehicleDistributionByFuelLegend");	
 		BrandSpecificBarChart(testingByFuelResult,"testingByFuel","testingByFuelLegend");
 	
@@ -194,21 +198,31 @@ function getBrandDetails(chartData,selectedData){
 }
 
 function BrandSpecificBarChart(data,svgId,legendId){
+	var cumSumGas = 0;var cumSumDies = 0;var cumSumElectric = 0;
+	for(var i=0;i<data.length;i++){
+		if(data[i]["group"] == "Gasoline")
+			cumSumGas = data[i]["cumTotal"];
+		if(data[i]["group"] == "Diesel")
+			cumSumDies = data[i]["cumTotal"]
+		if(data[i]["group"] == "Electricity")
+			cumSumElectric = data[i]["cumTotal"]
+		
+	}
 	var id = "#"+svgId;
 	var legendId = "#"+legendId;
-	var domainHeight = 1800;
+	var domainHeight = 3000;
 	var subgroups = ["noSemiAuto","noOfManual","noOfAutomatic","noOfOther"];
 	var colorRange = ['#BEBD7F','#CDA434','blue','#E4A010']
 	
 	if(svgId == "testingByFuel"){
-		domainHeight = 2000;
+		domainHeight = 3000;
 		subgroups = ["noCD","noOfFTP","noOfHWY","noOfSC03","noOfUS06"];
 		var colorRange = ['pink','green','lightblue','brown',"black"]
 	}
 	
     var margin = {top: 10, right: 30, bottom: 30, left: 50},
-    width = 400 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+    width = 500 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
 
     var svg = d3.select(id)
             .attr("width", width + margin.left + margin.right)
@@ -253,17 +267,27 @@ function BrandSpecificBarChart(data,svgId,legendId){
     .selectAll("rect")
     .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
     .enter().append("rect")
-    .on("mouseover", function(d) {
+	.on("mouseover", function(d) {
           d3.select(this).style("fill", d3.rgb(color(d.key)).darker(2));
+		  div.style('display', 'inline');
       })
+	  .on("mousemove",function(d){
+		    var d = d3.select(this).data()[0];
+        div
+            .html("No of Cars <hr>"+d.value)
+            .style('left', (d3.event.pageX + 30) + 'px')
+            .style('top', (d3.event.pageY - 12) + 'px');
+		  
+	  })
       .on("mouseout", function(d) {
           d3.select(this).style("fill", color(d.key));
+		  div.style('display', 'none');
       })
       .transition()
       .delay(function (d) {return Math.random()*1000;})
       .duration(1000)
       .attr("x", function(d) { return xSubgroup(d.key); })
-      .attr("y", function(d) { return y(d.value); })
+      .attr("y", function(d) { return y(d.value);   })
       .attr("width", xSubgroup.bandwidth())
       .attr("height", function(d) { return height - y(d.value); })
       .attr("fill", function(d) { return color(d.key); })
@@ -278,16 +302,56 @@ function BrandSpecificBarChart(data,svgId,legendId){
     		.text("Data not Available")
 	 }
 	  svg.append("text")
+    		.attr("text-anchor", "end")
+    		.attr("y", 120)
+    		.attr("x", 65)
+    		.text(cumSumGas)
+		 svg.append("text")
+    		.attr("text-anchor", "end")
+    		.attr("y", 120)
+    		.attr("x", 200)
+    		.text(cumSumDies)
+		 svg.append("text")
+    		.attr("text-anchor", "end")
+    		.attr("y", 120)
+    		.attr("x", 360)
+    		.text(cumSumElectric)
+	  svg.append("text")
 				.attr("text-anchor", "end")
 				.attr("transform", "rotate(-90)")
 				.attr("y", -margin.left+10)
-				.attr("x", -50)
+				.attr("x", -130)
 				.text("Number of Cars")
 	  svg.append("text")
 				.attr("text-anchor", "end")
 				.attr("x", width/2)
 				.attr("y", height+30)
-				.text("Fuel");	
+				.text("");
+	const annotations = [{
+        note: {
+          label: "These Total Should match for Cars' manufactured and Cars' Tested",
+          align:"left",
+		  wrap:150
+        },
+		connector:{
+			end:"dot"
+		},
+        x:250,
+		color:["black"],
+        y:100,
+        dy:-40,
+        dx:0,
+      }]
+
+
+
+    const makeAnnotations = d3.annotation()
+        .annotations(annotations)
+
+    svg.append('g')
+        .attr('class', 'annotation-group')
+        .call(makeAnnotations)
+	
     if(legendId == "#vehicleDistributionByFuelLegend"){
 		var legends = d3.select(legendId).attr("width", width + margin.left + margin.right)
 						.attr("height",100)
@@ -589,7 +653,7 @@ function barChart(chartData){
 				.text("Number of Cars Sold");
 		g.selectAll("rect").data(chartData)
 				.enter().append("rect")
-				//.attr("fill", function(d) { return d.color; })		
+				.attr("fill", function(d,i) {if(i==0)return "lightblue"; else return ""; })		
 				.attr("y",chartData => yscale(chartData.Make))
 				.attr("width",function(d,i){
 					if(i== 0) {
@@ -606,22 +670,47 @@ function barChart(chartData){
 				.duration(800)
 				.attr("height",yscale.bandwidth())
 		
-			 var anonotation = "We can clearly see that "+marketLeader+ " is the market leader";
-			 annotDiv.html("We can clearly see that "+marketLeader+ " is the market leader with highest number of car sold so far in "+document.getElementById('yearFilter').value+".<br/><br/> Click on the bar for detail information on each make <ul><li><p>Average Mileage in City / Highway</p><li><p>CO,CO2,NOx Emission Details</p></li><li><p>Vehicle and Transmission type distributions</p></li></ul>")
-					  .style('left', '600px')
-					  .style('top', '460px')
+			 var anonotation = "is the market leader with maximum number of car sold so far in "+document.getElementById('yearFilter').value;
 			
-			 var Gen = d3.line();
-				var points = [
-					[lineWidth-10, 12],
-					[lineWidth/1.1,200]
-					 
-				];
-		  
-				var pathOfLine = Gen(points);
-		  
-				d3.select('path')
-					.attr('d', pathOfLine);
+			var x = d3.scaleLinear()
+				.rangeRound([0, 900]);
+				x.domain([0, height])
+    
+      annotations = [{
+        note: {
+          label: anonotation,
+          title: marketLeader
+        },
+		connector:{
+			end:"dot"
+		},
+        x:0,
+		color:["black"],
+        y:35,
+        dy:180,
+        dx: 0,
+      }]
+
+
+
+      makeAnnotations = d3.annotation()
+        .annotations(annotations)
+
+      svg.append('g')
+        .attr('class', 'annotation-group')
+        .call(makeAnnotations)
+
+      d3.select('.annotation-group')
+      .transition()
+      .duration(4000)
+      .tween('updateAnno',function(d){
+        xTrans = d3.interpolateNumber(0,lineWidth+30)
+        return function(t){
+          annotations[0].x = x(xTrans(t));
+          makeAnnotations.annotations(annotations)
+          makeAnnotations.update()
+        }
+      })	
 		 
 	}	
 	else{
