@@ -185,38 +185,7 @@ slider.oninput = function() {
   document.getElementById("graphIntro").innerHTML = "";
   d3.selectAll("rect.carsTruck").remove();
 }
-
-</script>
-<script>
-// add a flag when we're done
-introJs().oncomplete(function() {
-  localStorage.setItem('doneTour', 'yeah!');
-})
-
-// add a flag when we exit
-introJs().onexit(function() {
-   localStorage.setItem('doneTour', 'yeah!');
-});
-
-var introguide = introJs();
-
-window.addEventListener('load', function () {
-    var doneTour = localStorage.getItem('EventTour') === 'Completed';
-    if (doneTour) {
-        return;
-    }
-    else {
-        introguide.start()
-
-        introguide.oncomplete(function () {
-            localStorage.setItem('EventTour', 'Completed');
-        });
-
-        introguide.onexit(function () {
-            localStorage.setItem('EventTour', 'Completed');
-        });
-    }
-});
+introJs().start();
 </script>
 
   
