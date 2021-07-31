@@ -9,6 +9,8 @@
 <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
 <script src='https://d3js.org/d3.v5.min.js'></script>
 <script src="Scene1.js"></script>
+<link href="https://unpkg.com/intro.js/minified/introjs.min.css" rel="stylesheet"> 
+<script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
 <style>
 body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 .tooltip{
@@ -82,6 +84,7 @@ ul.breadcrumb li a:hover {
 <body  onload='init("OnLoad","","Gasoline","2021")' class="w3-light-grey">
 <div id='tooltip'></div>
 <div id='annot'></div>
+<div id='tempMarketLeader'></div>
 <script>
 
 var div = d3.select('#tooltip').append('div')
@@ -89,7 +92,11 @@ var div = d3.select('#tooltip').append('div')
         .style('display', 'none');
 var annotDiv = d3.select('#annot').append('div')
         .attr('class', 'annotation')
-       
+
+function formScene2Url(){
+	 location.href = "Scene2.html?selectedBrand="+document.getElementById("tempMarketLeader").value;
+	}
+    
 </script>
 
 
@@ -98,10 +105,10 @@ var annotDiv = d3.select('#annot').append('div')
 		<div class="header"> 
 		  <h2><b>United States Environmental Protection Agency</b></h2>
 		</div>
-		<ul class="breadcrumb">
+		<ul class="breadcrumb" data-title="Navigation" data-intro="Use these link to naviagte to different scene">
 			<li><a href="#">Home</a></li>
-			<li>Test Results for MPG</li>
-			<li>Test Results for Emissions</a></li>
+			<li><a href="#" onclick="formScene2Url();return false;">Fuel Economy Results</a></li>
+
 		</ul>
 
 
@@ -121,9 +128,8 @@ var annotDiv = d3.select('#annot').append('div')
 		<li>This Visualization is based on a testing result shared by auto manufactureres on about <b>15%</b> of vehcile model each year</li>
 	  </ul>
 	  <p></p>
-	  <p><b>Click on bar for details testing report for each manufacturer</b></p>
-		<div  id="fuelTypeFilter" style="max-height:40px">
-			<div align="center">		
+		<div  id="fuelTypeFilter" data-title="Refresh Current Scene" data-intro="Change these parameters to view different aspect of data" style="max-height:40px">
+			<div  align="center" >		
 			<label for="fuel">Choose a Fuel Type:</label>
 				<select name="fuel" id="fuelType" onchange="filterRecords('Fuel')">
 					<option value="Gasoline">Gasoline</option>
@@ -140,7 +146,7 @@ var annotDiv = d3.select('#annot').append('div')
 			</div>
 		
 		
-		<svg id="mainGraph" height="900" width="1000"></svg>
+		<svg id="mainGraph" height="900" width="1000" data-title="Proceed to Next Scene" data-intro="Bars are used to construct the drill down mechanism to explore more details and also navigates to different scene of visualization <br/> <br/>Mouse Over on graphs to explore data points"></svg>
 		
 		
 		<path></path>
@@ -192,7 +198,7 @@ var annotDiv = d3.select('#annot').append('div')
   <hr> 
 </div>
 
-<div class="w3-col l4" style="width:35%">
+<div class="w3-col l4" style="width:35%" data-title="Data Source" data-intro="User can download the data source for this visualixzation from here.">
   <div class="w3-card w3-margin">
     <div class="w3-container w3-padding">
       <h5>Data Source</h5>
@@ -207,7 +213,9 @@ var annotDiv = d3.select('#annot').append('div')
 </div>
 
 <!-- END GRID -->
-
+<script>
+introJs().start();
+</script>
 
 <!-- END w3-content -->
 </div>

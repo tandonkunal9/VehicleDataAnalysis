@@ -4,7 +4,6 @@ let params = (new URL(url)).searchParams;
 var selectedBrand = params.get('selectedBrand');
 
 
-
 async function init(selectedBrand,eventType,fuelType){
 	
 	//const chartData = await d3.csv('https://tandonkunal9.github.io/VehicleDataAnalysis/cars2017.csv');
@@ -341,9 +340,11 @@ function GetBrandSpecificData(chartData,selectedBrand,opts){
 function mouseClickOfHPBar(data){
 	 var d = d3.select(this).data()[0];
 	 document.getElementById("graphIntro").innerHTML = "Vehicles manufactured for "+d.group+" as fuel type with horsepower of "+document.getElementById("myRange").value;
-	 init(selectedBrand,"onHpBarClicked",d.group)
-	
+	 init(selectedBrand,"onHpBarClicked",d.group)	
 }
+
+
+
 function mouseover()
 	{
         div.style('display', 'inline');
@@ -526,7 +527,7 @@ function BrandSpecificBarChart(data,svgId){
     .append("g")
      .attr("transform", function(d) { return "translate(" + x(d.group) + ",0)"; })
     .selectAll("rect")
-    .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
+    .data(function(d) {return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
     .enter().append("rect")
     .on("mouseover", function(d) {
           d3.select(this).style("fill", d3.rgb(color(d.key)).darker(2));
@@ -546,6 +547,7 @@ function BrandSpecificBarChart(data,svgId){
 	  })
       .on("mouseout", function(d) {
           d3.select(this).style("fill", color(d.key));
+		  div.style('display', 'none');
       })
       .transition()
       .delay(function (d) {return Math.random()*1000;})

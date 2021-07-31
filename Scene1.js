@@ -16,7 +16,6 @@ async function init(event,data,filterType,year){
 	}
     
 }
-
 function filterRecords(type){
 	init("onFilterClick","",type);
 }
@@ -191,9 +190,10 @@ function getBrandDetails(chartData,selectedData){
 		item["noOfUS06"] = noOfUS06;
 		item["cumTotal"] = noCD+noOfFTP+noOfHWY+noOfSC03+noOfUS06;
 		testingByFuelResult.push(item);
+		
 		BrandSpecificBarChart(carsByFuelResult,"vehicleDistributionByFuel","vehicleDistributionByFuelLegend");	
 		BrandSpecificBarChart(testingByFuelResult,"testingByFuel","testingByFuelLegend");
-	
+		
 	
 }
 
@@ -650,7 +650,7 @@ function barChart(chartData){
 				.attr("x", width/2)
 				.attr("y", 880)
 				.attr('class', 'yAxis')
-				.text("Number of Cars Sold");
+				.text("Number of Cars Manufactured");
 		g.selectAll("rect").data(chartData)
 				.enter().append("rect")
 				.attr("fill", function(d,i) {if(i==0)return "lightblue"; else return ""; })		
@@ -659,6 +659,7 @@ function barChart(chartData){
 					if(i== 0) {
 						lineWidth = xscale(d.Number);
 						marketLeader = d.Make;
+						document.getElementById("tempMarketLeader").value = marketLeader;
 					}return xscale(d.Number)
 					
 					})
@@ -670,7 +671,7 @@ function barChart(chartData){
 				.duration(800)
 				.attr("height",yscale.bandwidth())
 		
-			 var anonotation = "is the market leader with maximum number of car sold so far in "+document.getElementById('yearFilter').value;
+			 var anonotation = "is the market leader with maximum number of car manufactured so far in "+document.getElementById('yearFilter').value;
 			
 			var x = d3.scaleLinear()
 				.rangeRound([0, 900]);
