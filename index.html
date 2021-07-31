@@ -103,7 +103,7 @@ function formScene2Url(){
 <div class="w3-content" style="max-width:3200px">
 
 		<div class="header"> 
-		  <h2><b>United States Environmental Protection Agency</b></h2>
+		  <h2><b>Fuel Economy and Emissions Report</b></h2>
 		</div>
 		<ul class="breadcrumb" data-title="Navigation" data-intro="Use these link to naviagte to different scene">
 			<li><a href="#">Home</a></li>
@@ -128,7 +128,7 @@ function formScene2Url(){
 		<li>This Visualization is based on a testing result shared by auto manufactureres on about <b>15%</b> of vehcile model each year</li>
 	  </ul>
 	  <p></p>
-		<div  id="fuelTypeFilter" data-title="Refresh Current Scene" data-intro="Change these parameters to view different aspect of data" style="max-height:40px">
+		<div  id="fuelTypeFilter" data-title="Refresh Current Scene" data-intro="Change these parameters to view different aspect of data <br/> <br/> Bars are used to construct the drill down mechanism to explore more details and also navigates to different scene of visualization <br/> <br/>Mouse Over on graphs to explore data points" style="max-height:40px">
 			<div  align="center" >		
 			<label for="fuel">Choose a Fuel Type:</label>
 				<select name="fuel" id="fuelType" onchange="filterRecords('Fuel')">
@@ -146,7 +146,7 @@ function formScene2Url(){
 			</div>
 		
 		
-		<svg id="mainGraph" height="900" width="1000" data-title="Proceed to Next Scene" data-intro="Bars are used to construct the drill down mechanism to explore more details and also navigates to different scene of visualization <br/> <br/>Mouse Over on graphs to explore data points"></svg>
+		<svg id="mainGraph" height="900" width="1000"></svg>
 		
 		
 		<path></path>
@@ -198,7 +198,7 @@ function formScene2Url(){
   <hr> 
 </div>
 
-<div class="w3-col l4" style="width:35%" data-title="Data Source" data-intro="User can download the data source for this visualixzation from here.">
+<div class="w3-col l4" style="width:35%" data-title="Data Source" data-intro="User can download the data source for this visualization from here.">
   <div class="w3-card w3-margin">
     <div class="w3-container w3-padding">
       <h5>Data Source</h5>
@@ -214,7 +214,35 @@ function formScene2Url(){
 
 <!-- END GRID -->
 <script>
-introJs().start();
+// add a flag when we're done
+introJs().oncomplete(function() {
+  localStorage.setItem('doneTour', 'yeah!');
+})
+
+// add a flag when we exit
+introJs().onexit(function() {
+   localStorage.setItem('doneTour', 'yeah!');
+});
+
+var introguide = introJs();
+
+window.addEventListener('load', function () {
+    var doneTour = localStorage.getItem('EventTour') === 'Completed';
+    if (doneTour) {
+        return;
+    }
+    else {
+        introguide.start()
+
+        introguide.oncomplete(function () {
+            localStorage.setItem('EventTour', 'Completed');
+        });
+
+        introguide.onexit(function () {
+            localStorage.setItem('EventTour', 'Completed');
+        });
+    }
+});
 </script>
 
 <!-- END w3-content -->

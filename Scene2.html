@@ -104,7 +104,7 @@ function formScene3Url(){
   <h2><b><span id="header"></span></b></h2>
 </div>
 
-		<ul class="breadcrumb">
+		<ul class="breadcrumb" data-title="Navigation" data-intro="Use these link to naviagte to different scene">
 			<li><a href="index.html">Home</a></li>
 			<li>Fuel Economy Results</li>
 			<li><a href="#" onclick="formScene3Url();return false;">Emissions Results</a></li>
@@ -185,7 +185,38 @@ slider.oninput = function() {
   document.getElementById("graphIntro").innerHTML = "";
   d3.selectAll("rect.carsTruck").remove();
 }
-introJs().start();
+
+</script>
+<script>
+// add a flag when we're done
+introJs().oncomplete(function() {
+  localStorage.setItem('doneTour', 'yeah!');
+})
+
+// add a flag when we exit
+introJs().onexit(function() {
+   localStorage.setItem('doneTour', 'yeah!');
+});
+
+var introguide = introJs();
+
+window.addEventListener('load', function () {
+    var doneTour = localStorage.getItem('EventTour') === 'Completed';
+    if (doneTour) {
+        return;
+    }
+    else {
+        introguide.start()
+
+        introguide.oncomplete(function () {
+            localStorage.setItem('EventTour', 'Completed');
+        });
+
+        introguide.onexit(function () {
+            localStorage.setItem('EventTour', 'Completed');
+        });
+    }
+});
 </script>
 
   

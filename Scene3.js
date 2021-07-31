@@ -63,11 +63,11 @@ function GetEmissionsDetails(chartData,selectedBrand,ratedHp){
 		avgGasN2o = avgGasN2o/resultGasoline.length;
 		
 		resultGasoline = [];
-		var item = {};item["group"] = "CO2 (g/mi)";item["value"] = avgGasCo2;resultGasoline.push(item);
-		item = {};item["group"] = "CO (g/mi)";item["value"] = avgGasCo+Number(32);resultGasoline.push(item);
-		item = {};item["group"] = "THC (g/mi)";item["value"] = avgGasTHC+Number(10);resultGasoline.push(item);
-		item = {};item["group"] = "NOx (g/mi)";item["value"] = avgGasNox;resultGasoline.push(item);
-		item = {};item["group"] = "N2O (g/mi)";item["value"] = avgGasN2o+Number(40);resultGasoline.push(item);
+		var item = {};item["group"] = "CO2";item["value"] = avgGasCo2;resultGasoline.push(item);
+		item = {};item["group"] = "CO";item["value"] = avgGasCo+Number(32);resultGasoline.push(item);
+		item = {};item["group"] = "THC";item["value"] = avgGasTHC+Number(10);resultGasoline.push(item);
+		item = {};item["group"] = "NOx";item["value"] = avgGasNox;resultGasoline.push(item);
+		item = {};item["group"] = "N2O";item["value"] = avgGasN2o+Number(40);resultGasoline.push(item);
 		
 		for(var i=0;i<resultDiesel.length;i++)
 		{
@@ -85,11 +85,11 @@ function GetEmissionsDetails(chartData,selectedBrand,ratedHp){
 		avgGasN2o = avgGasN2o/resultDiesel.length;
 		
 		resultDiesel = [];
-		var item = {};item["group"] = "CO2 (g/mi)";item["value"] = avgGasCo2;resultDiesel.push(item);
-		item = {};item["group"] = "CO (g/mi)";item["value"] = avgGasCo+Number(15);resultDiesel.push(item);
-		item = {};item["group"] = "THC (g/mi)";item["value"] = avgGasTHC+Number(10);resultDiesel.push(item);
-		item = {};item["group"] = "NOx (g/mi)";item["value"] = avgGasNox;resultDiesel.push(item);
-		item = {};item["group"] = "N2O (g/mi)";item["value"] = avgGasN2o+Number(90);resultDiesel.push(item);
+		var item = {};item["group"] = "CO2";item["value"] = avgGasCo2;resultDiesel.push(item);
+		item = {};item["group"] = "CO";item["value"] = avgGasCo+Number(15);resultDiesel.push(item);
+		item = {};item["group"] = "THC";item["value"] = avgGasTHC+Number(10);resultDiesel.push(item);
+		item = {};item["group"] = "NOx";item["value"] = avgGasNox;resultDiesel.push(item);
+		item = {};item["group"] = "N2O";item["value"] = avgGasN2o+Number(90);resultDiesel.push(item);
 		
 		for(var i=0;i<resultElectricity.length;i++)
 		{
@@ -107,11 +107,11 @@ function GetEmissionsDetails(chartData,selectedBrand,ratedHp){
 		avgGasN2o = avgGasN2o/resultElectricity.length;
 		
 		resultElectricity = [];
-		var item = {};item["group"] = "CO2 (g/mi)";item["value"] = avgGasCo2/3;resultElectricity.push(item);
-		item = {};item["group"] = "CO (g/mi)";item["value"] = avgGasCo+Number(10);resultElectricity.push(item);
-		item = {};item["group"] = "THC (g/mi)";item["value"] = avgGasTHC+Number(14);resultElectricity.push(item);
-		item = {};item["group"] = "NOx (g/mi)";item["value"] = avgGasNox;resultElectricity.push(item);
-		item = {};item["group"] = "N2O (g/mi)";item["value"] = avgGasN2o+Number(17);resultElectricity.push(item);
+		var item = {};item["group"] = "CO2";item["value"] = avgGasCo2/3;resultElectricity.push(item);
+		item = {};item["group"] = "CO";item["value"] = avgGasCo+Number(10);resultElectricity.push(item);
+		item = {};item["group"] = "THC";item["value"] = avgGasTHC+Number(14);resultElectricity.push(item);
+		item = {};item["group"] = "NOx";item["value"] = avgGasNox;resultElectricity.push(item);
+		item = {};item["group"] = "N2O";item["value"] = avgGasN2o+Number(17);resultElectricity.push(item);
 		
 	emissionsBarChart(resultGasoline,"subGraphGasoline","Gasoline");
 	emissionsBarChart(resultDiesel,"subGraphDiesel","Diesel");
@@ -140,13 +140,11 @@ function emissionsBarChart(data,svgId,graphLabel){
 svg.append("g")
   .attr("transform", "translate(0," + height + ")")
   .call(d3.axisBottom(x))
-  .selectAll("text")
-    .attr("transform", "translate(-10,0)rotate(-45)")
-    .style("text-anchor", "end");
+  
 
 // Add Y axis
 var y = d3.scaleLinear()
-  .domain([0, 250])
+  .domain([0, 400])
   .range([ height, 0]);
 svg.append("g")
   .call(d3.axisLeft(y));
@@ -164,11 +162,11 @@ svg.selectAll("mybar")
 	.on('mouseout', mouseout)
     .attr("height", function(d) { return height - y(d.value); })
     .attr("fill", function(d){
-		if(d.group == "CO2 (g/mi)") return "#CDA434";
-		else if(d.group == "CO (g/mi)") return "green";
-		else if(d.group == "THC (g/mi)") return "yellow";
-		else if(d.group == "NOx (g/mi)") return "brown";
-		else if(d.group == "N2O (g/mi)") return "black";
+		if(d.group == "CO2") return "#CDA434";
+		else if(d.group == "CO") return "green";
+		else if(d.group == "THC") return "yellow";
+		else if(d.group == "NOx") return "brown";
+		else if(d.group == "N2O") return "black";
 		else return "black";
 	})
 	.transition()
@@ -213,8 +211,8 @@ svg.append("text")
 				x:0,
 				color:["black"],
 				y:5,
-				dy:30,
-				dx: -30,
+				dy:20,
+				dx: -10,
 			  }]
 
 			  makeAnnotations = d3.annotation()
